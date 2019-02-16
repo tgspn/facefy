@@ -27,7 +27,7 @@ public class Event {
 	@Enumerated(value = EnumType.STRING)
 	EventStatus status;
 	
-	@ManyToMany(mappedBy="events")
+	@ManyToMany
 	List<Customer> customers;
 
 	public String getId() {
