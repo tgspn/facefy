@@ -43,6 +43,7 @@ public class ZoopHandler {
 		  .url(url)
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
+		  .addHeader("Authorization", "Basic " + API_PUBLISHED_KEY)
 		  .build();
 
 		try {
