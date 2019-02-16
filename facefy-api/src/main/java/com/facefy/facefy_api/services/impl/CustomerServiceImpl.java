@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
+import com.facefy.facefy_api.models.zoop.ZoopCustomer;
 import com.facefy.facefy_api.repositories.CustomerRepository;
 import com.facefy.facefy_api.services.CustomerService;
+import com.facefy.facefy_api.zoop.ZoopHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -26,14 +28,15 @@ public class CustomerServiceImpl implements CustomerService {
 	CustomerRepository customerRepository;
 	MessageDigest md;
 	
-	String MARKETPLACE_ID = "3249465a7753536b62545a6a684b0000";
-	String API_PUBLISHED_KEY = "basic zpk_test_ogmi3TJnV33UDljdN4n8aRit";
-	
+	ZoopHandler zoopHandler;
+
 	@Autowired
 	public CustomerServiceImpl(CustomerRepository customerRepository) 
 			throws NoSuchAlgorithmException {
 		this.customerRepository = customerRepository;
 		md = MessageDigest.getInstance("MD5");
+		
+		this.zoopHandler = new ZoopHandler();
 	}
 
 	@Override
@@ -62,59 +65,18 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findAll();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public String createCustomer(Customer customer) {
-		Gson gson = new Gson();
-		JsonObject jsonObj = new JsonObject();
-		jsonObj.addProperty("first_name", customer.getFirstName());
-		jsonObj.addProperty("last_name", customer.getLastName());
-		String POST_PARAMS = gson.toJson(jsonObj);
-		System.out.println(POST_PARAMS);
-
-		StringBuffer response = new StringBuffer();
-		HttpURLConnection postConnection;
-		try {
-			URL obj = new URL("https://api.zoop.ws/v1/marketplaces/"+MARKETPLACE_ID +"/buyers");
-			postConnection = (HttpURLConnection) obj.openConnection();
-			postConnection.setRequestMethod("POST");
-			postConnection.setRequestProperty("Authorization", API_PUBLISHED_KEY);
-			postConnection.setRequestProperty("Content-Type", "application/json");
-			postConnection.setDoOutput(true);
-			OutputStream os = postConnection.getOutputStream();
-			os.write(POST_PARAMS.getBytes());
-			os.flush();
-			os.close();
-
-			int responseCode = postConnection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_CREATED) { // success
-				BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
-				String inputLine;
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-				System.out.println(response.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "CUSTOMER NOT CREATED";
+	public Customer createCustomer(Customer customer) throws BadRequestException {
+		String id = zoopHandler.createCustomer(customer);
+		
+		if (!id.isEmpty()) {
+			customer.setCustomerId(id);
+			customerRepository.save(customer);
+			
+			return customer;
 		}
 		
-		return response.toString();
-//
-//		Map<String, String> jsonJavaRootObject = new Gson().fromJson(response.toString(), Map.class);
-//		
-//		for (Map.Entry<String, String> pair : jsonJavaRootObject.entrySet()) {
-//
-//			String key = pair.getKey();
-//			String value = pair.getValue();
-//			System.out.println("Key: " + key + " | Value= " + value);
-//		}
-//
-//		customer.setCustomerId("123123123");
-//		customerRepository.save(customer);
-//		return customer.getCustomerId();
+		throw new BadRequestException();
 	}
 
 	@Override
@@ -129,46 +91,43 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public boolean associateCustomerWithCard(String customerId, String cardId) {
-//		RestTemplate restTemplate = new RestTemplate();
-//		Map<String, String> vars = Collections.singletonMap(customerId, cardId);
-//		String result = restTemplate.getForObject("http://example.com/hotels/{hotel}/rooms/{hotel}", String.class,
-//				vars);
-		
-		Gson gson = new Gson();
-		JsonObject jsonObj = new JsonObject();
-		jsonObj.addProperty("token", cardId);
-		jsonObj.addProperty("customer", customerId);
-		String POST_PARAMS = gson.toJson(jsonObj);
-		System.out.println(POST_PARAMS);
-
-		StringBuffer response = new StringBuffer();
-		HttpURLConnection postConnection;
-		try {
-			URL obj = new URL("https://api.zoop.ws/v1/marketplaces/" + MARKETPLACE_ID + "/bank_accounts");
-			postConnection = (HttpURLConnection) obj.openConnection();
-			postConnection.setRequestMethod("POST");
-			postConnection.setRequestProperty("Authorization", API_PUBLISHED_KEY);
-			postConnection.setRequestProperty("Content-Type", "application/json");
-			postConnection.setDoOutput(true);
-			OutputStream os = postConnection.getOutputStream();
-			os.write(POST_PARAMS.getBytes());
-			os.flush();
-			os.close();
-
-			int responseCode = postConnection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_CREATED) { // success
-				BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
-				String inputLine;
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-				System.out.println(response.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
 		return true;
 	}
+//		Gson gson = new Gson();
+//		JsonObject jsonObj = new JsonObject();
+//		jsonObj.addProperty("token", cardId);
+//		jsonObj.addProperty("customer", customerId);
+//		String POST_PARAMS = gson.toJson(jsonObj);
+//		System.out.println(POST_PARAMS);
+//
+//		StringBuffer response = new StringBuffer();
+//		HttpURLConnection postConnection;
+//		try {
+//			URL obj = new URL("https://api.zoop.ws/v1/marketplaces/" + MARKETPLACE_ID + "/bank_accounts");
+//			postConnection = (HttpURLConnection) obj.openConnection();
+//			postConnection.setRequestMethod("POST");
+//			postConnection.setRequestProperty("Authorization", API_PUBLISHED_KEY);
+//			postConnection.setRequestProperty("Content-Type", "application/json");
+//			postConnection.setDoOutput(true);
+//			OutputStream os = postConnection.getOutputStream();
+//			os.write(POST_PARAMS.getBytes());
+//			os.flush();
+//			os.close();
+//
+//			int responseCode = postConnection.getResponseCode();
+//			if (responseCode == HttpURLConnection.HTTP_CREATED) { // success
+//				BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
+//				String inputLine;
+//				while ((inputLine = in.readLine()) != null) {
+//					response.append(inputLine);
+//				}
+//				in.close();
+//				System.out.println(response.toString());
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return false;
+//		}
+//		return true;
+//	}
 }

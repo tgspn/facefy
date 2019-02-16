@@ -14,7 +14,7 @@ public interface CustomerService {
 
 	void saveCustomer(Customer customer);
 
-	String createCustomer(Customer customer);
+	Customer createCustomer(Customer customer) throws BadRequestException;
 
 	boolean associateCustomerWithCard(String customerId, String customerCardId);
 }

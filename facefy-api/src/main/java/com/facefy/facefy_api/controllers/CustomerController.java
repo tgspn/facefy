@@ -41,8 +41,8 @@ public class CustomerController {
 	@RequestMapping(value = "/customer/create", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Customer> create(@RequestBody Customer customer) {
-		customerService.createCustomer(customer);
+	public ResponseEntity<Customer> create(@RequestBody Customer customer) throws BadRequestException {
+		customer = customerService.createCustomer(customer);
 		return ResponseEntity.ok().body(customer);
 	}
 	
