@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 	MessageDigest md;
 	
 	String MARKETPLACE_ID = "3249465a7753536b62545a6a684b0000";
-	String API_PUBLISHED_KEY = "zpk_test_ogmi3TJnV33UDljdN4n8aRit";
+	String API_PUBLISHED_KEY = "basic zpk_test_ogmi3TJnV33UDljdN4n8aRit";
 	
 	@Autowired
 	public CustomerServiceImpl(CustomerRepository customerRepository) 
@@ -69,16 +68,14 @@ public class CustomerServiceImpl implements CustomerService {
 		Gson gson = new Gson();
 		JsonObject jsonObj = new JsonObject();
 		jsonObj.addProperty("first_name", customer.getFirstName());
-		jsonObj.addProperty("last_name", customer.getFirstName());
+		jsonObj.addProperty("last_name", customer.getLastName());
 		String POST_PARAMS = gson.toJson(jsonObj);
 		System.out.println(POST_PARAMS);
 
-//	      final String POST_PARAMS = "{\n" + "\"token\": " + cardId + ",\r\n" + "    \"customer\": \"" + customerId
-//					+ "\"" + "\n}";
 		StringBuffer response = new StringBuffer();
 		HttpURLConnection postConnection;
 		try {
-			URL obj = new URL("https://api.zoop.ws/v1/marketplaces/" + MARKETPLACE_ID + "/buyers");
+			URL obj = new URL("https://api.zoop.ws/v1/marketplaces/"+MARKETPLACE_ID +"/buyers");
 			postConnection = (HttpURLConnection) obj.openConnection();
 			postConnection.setRequestMethod("POST");
 			postConnection.setRequestProperty("Authorization", API_PUBLISHED_KEY);
@@ -103,19 +100,21 @@ public class CustomerServiceImpl implements CustomerService {
 			e.printStackTrace();
 			return "CUSTOMER NOT CREATED";
 		}
-
-		Map<String, String> jsonJavaRootObject = new Gson().fromJson(response.toString(), Map.class);
-
-		for (Map.Entry<String, String> pair : jsonJavaRootObject.entrySet()) {
-
-			String key = pair.getKey();
-			String value = pair.getValue();
-			System.out.println("Key: " + key + " | Value= " + value);
-		}
-
-		customer.setCustomerId("123123123");
-		customerRepository.save(customer);
-		return customer.getCustomerId();
+		
+		return response.toString();
+//
+//		Map<String, String> jsonJavaRootObject = new Gson().fromJson(response.toString(), Map.class);
+//		
+//		for (Map.Entry<String, String> pair : jsonJavaRootObject.entrySet()) {
+//
+//			String key = pair.getKey();
+//			String value = pair.getValue();
+//			System.out.println("Key: " + key + " | Value= " + value);
+//		}
+//
+//		customer.setCustomerId("123123123");
+//		customerRepository.save(customer);
+//		return customer.getCustomerId();
 	}
 
 	@Override
@@ -134,9 +133,13 @@ public class CustomerServiceImpl implements CustomerService {
 //		Map<String, String> vars = Collections.singletonMap(customerId, cardId);
 //		String result = restTemplate.getForObject("http://example.com/hotels/{hotel}/rooms/{hotel}", String.class,
 //				vars);
-
-		final String POST_PARAMS = "{\n" + "\"token\": " + cardId + ",\r\n" + "    \"customer\": \"" + customerId + "\""
-				+ "\n}";
+		
+		Gson gson = new Gson();
+		JsonObject jsonObj = new JsonObject();
+		jsonObj.addProperty("token", cardId);
+		jsonObj.addProperty("customer", customerId);
+		String POST_PARAMS = gson.toJson(jsonObj);
+		System.out.println(POST_PARAMS);
 
 		StringBuffer response = new StringBuffer();
 		HttpURLConnection postConnection;
