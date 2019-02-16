@@ -8,11 +8,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "customer")
 @SequenceGenerator(name = "U_SEQ", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
-public class User {
+public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "U_SEQ")
-	long userId;
+	long customerId;
 }
