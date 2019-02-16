@@ -2,6 +2,8 @@ package com.facefy.facefy_api.zoop;
 
 import java.io.IOException;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import com.facefy.facefy_api.models.Customer;
 import com.facefy.facefy_api.models.zoop.ZoopCardAssociation;
 import com.facefy.facefy_api.models.zoop.ZoopCustomer;
@@ -43,7 +45,7 @@ public class ZoopHandler {
 		  .url(url)
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
-		  .addHeader("Authorization", "Basic " + API_PUBLISHED_KEY)
+		  .addHeader("Authorization", "Basic " + getBasicAuthenticationEncoding())
 		  .build();
 
 		try {
@@ -94,7 +96,7 @@ public class ZoopHandler {
 		  .url(url)
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
-		  .addHeader("Authorization", "Basic " + API_PUBLISHED_KEY)
+		  .addHeader("Authorization", "Basic " + getBasicAuthenticationEncoding())
 		  .build();
 
 		try {
@@ -105,4 +107,10 @@ public class ZoopHandler {
 			return false;
 		}
 	}
+	
+	private String getBasicAuthenticationEncoding() {
+
+        String userPassword = API_PUBLISHED_KEY + ":" + "";
+        return new String(Base64.encodeBase64(userPassword.getBytes()));
+    }
 }
