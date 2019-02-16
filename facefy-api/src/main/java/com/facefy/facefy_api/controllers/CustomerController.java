@@ -20,6 +20,13 @@ public class CustomerController {
 	@Autowired
 	CustomerService userService;
 	
+	@RequestMapping(value = "/auth", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public Customer get(@RequestBody Customer customer) {
+		return null;
+	}
+
 	@RequestMapping(value = "/me", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
