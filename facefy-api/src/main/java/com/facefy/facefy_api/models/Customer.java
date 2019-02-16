@@ -1,7 +1,10 @@
 package com.facefy.facefy_api.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -9,7 +12,6 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "customer")
-@SequenceGenerator(name = "U_SEQ", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
 public class Customer {
 
 	@Id
@@ -30,6 +32,9 @@ public class Customer {
 
 	@OneToOne
 	CustomerCard customerCard;
+	
+	@OneToMany(mappedBy="customers")
+	List<Event> events;
 
 	public String getCustomerId() {
 		return customerId;
@@ -93,6 +98,14 @@ public class Customer {
 
 	public void setCustomerCard(CustomerCard customerCard) {
 		this.customerCard = customerCard;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEventHistory(List<Event> events) {
+		this.events = events;
 	}
 
 }

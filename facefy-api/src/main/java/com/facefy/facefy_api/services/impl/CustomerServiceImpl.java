@@ -2,6 +2,7 @@ package com.facefy.facefy_api.services.impl;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,14 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		
 		throw new NotFoundException();
+	}
+
+	@Override
+	public Iterable<Customer> getAll(String masterKey) throws BadRequestException {
+		if (masterKey != "facefyiscool")
+			throw new BadRequestException();
+		
+		return customerRepository.findAll();
 	}
 
 }
