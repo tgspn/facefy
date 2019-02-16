@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.facefy.facefy_api.models.Customer;
 
 @Repository
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends CrudRepository<Customer, String> {
 
 }

@@ -11,4 +11,22 @@ public class CustomerServiceImpl implements CustomerService {
 		return null;
 	}
 
+	@Override
+	public Customer getMe(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void create(Customer customer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addCard(String userId, String cardId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
