@@ -35,7 +35,7 @@ public class ZoopHandler {
 	}
 	
 	public String createCustomer(Customer customer) {
-		String url = URL + MARKETPLACE_ID + "buyers";
+		String url = URL + MARKETPLACE_ID + "/buyers";
 	
 		ZoopCustomer zoopCustomer = new ZoopCustomer(customer);
 		
