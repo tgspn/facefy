@@ -23,7 +23,7 @@ public class CustomerController {
 	@RequestMapping(value = "/me", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public Customer get(@RequestHeader(name="User-Id", defaultValue="", required = true) int userId) {
+	public Customer get(@RequestHeader(name="User-Id", defaultValue="", required = true) String customerId) {
 		return null;
 	}
 	
@@ -37,7 +37,7 @@ public class CustomerController {
 	@RequestMapping(value = "/card/{cardId}", method = RequestMethod.PUT, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public Customer addCard(@RequestHeader(name="User-Id", defaultValue="", required = true) int userId,
+	public Customer addCard(@RequestHeader(name="User-Id", defaultValue="", required = true) String customerId,
 			@PathVariable String customerCard) {
 		return null;
 	}
