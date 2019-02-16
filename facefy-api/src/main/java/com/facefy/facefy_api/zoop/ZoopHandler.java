@@ -3,6 +3,7 @@ package com.facefy.facefy_api.zoop;
 import java.io.IOException;
 
 import com.facefy.facefy_api.models.Customer;
+import com.facefy.facefy_api.models.zoop.ZoopCardAssociation;
 import com.facefy.facefy_api.models.zoop.ZoopCustomer;
 import com.facefy.facefy_api.models.zoop.ZoopPayment;
 import com.google.gson.Gson;
@@ -19,7 +20,7 @@ public class ZoopHandler {
 	Gson gson;
 
 	OkHttpClient client;
-	final String URL = "https://api.zoop.ws/v1/marketplaces";
+	final String URL = "https://api.zoop.ws/v1/marketplaces/";
 
 	final String MARKETPLACE_ID = "3249465a7753536b62545a6a684b0000";
 	final String SELLER_ID = "00c92e1ebc98487fb3a4511982c54ea7";
@@ -32,7 +33,7 @@ public class ZoopHandler {
 	}
 	
 	public String createCustomer(Customer customer) {
-		String url = URL + MARKETPLACE_ID + "/buyers";
+		String url = URL + MARKETPLACE_ID + "buyers";
 	
 		ZoopCustomer zoopCustomer = new ZoopCustomer(customer);
 		
@@ -55,6 +56,27 @@ public class ZoopHandler {
 			return "";
 		} catch (IOException e) {
 			return "";
+		}
+	}
+	
+	public boolean associateCardWithCustomer(String customerId, String cardId) {
+		String url = URL + MARKETPLACE_ID + "bank_accounts";
+		
+		ZoopCardAssociation zca = new ZoopCardAssociation(cardId, customerId);
+		
+		MediaType mediaType = MediaType.parse("application/json");
+		RequestBody body = RequestBody.create(mediaType, gson.toJson(zca));
+		Request request = new Request.Builder()
+		  .url("https://api.zoop.ws/v1/marketplaces/3249465a7753536b62545a6a684b0000/bank_accounts")
+		  .post(body)
+		  .addHeader("Content-Type", "application/json")
+		  .build();
+
+		try {
+			Response response = client.newCall(request).execute();
+			return response.isSuccessful();
+		} catch (IOException e) {
+			return false;
 		}
 	}
 

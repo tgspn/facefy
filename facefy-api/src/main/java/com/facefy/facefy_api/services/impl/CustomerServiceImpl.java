@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
+import com.facefy.facefy_api.models.CustomerCard;
 import com.facefy.facefy_api.models.zoop.ZoopCustomer;
 import com.facefy.facefy_api.repositories.CustomerRepository;
 import com.facefy.facefy_api.services.CustomerService;
@@ -80,8 +81,14 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Customer findCustomer(String customerId) {
-		return customerRepository.findOne(customerId);
+	public Customer findCustomer(String customerId) throws NotFoundException {
+		Customer customer = customerRepository.findOne(customerId);
+		
+		if (customer != null) {
+			return customer;
+		}
+		
+		throw new NotFoundException();
 	}
 
 	@Override
@@ -90,44 +97,19 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public boolean associateCustomerWithCard(String customerId, String cardId) {
-		return true;
+	public boolean associateCustomerWithCard(String customerId, String cardId) 
+			throws NotFoundException {
+		Customer customer = findCustomer(customerId);
+		
+		boolean success = zoopHandler.associateCardWithCustomer(customer.getCustomerId(), cardId);
+		
+		if (success) {
+			CustomerCard card = new CustomerCard(cardId);
+			customer.setCustomerCard(card);
+			
+			customerRepository.save(customer);
+		}
+		
+		return success;
 	}
-//		Gson gson = new Gson();
-//		JsonObject jsonObj = new JsonObject();
-//		jsonObj.addProperty("token", cardId);
-//		jsonObj.addProperty("customer", customerId);
-//		String POST_PARAMS = gson.toJson(jsonObj);
-//		System.out.println(POST_PARAMS);
-//
-//		StringBuffer response = new StringBuffer();
-//		HttpURLConnection postConnection;
-//		try {
-//			URL obj = new URL("https://api.zoop.ws/v1/marketplaces/" + MARKETPLACE_ID + "/bank_accounts");
-//			postConnection = (HttpURLConnection) obj.openConnection();
-//			postConnection.setRequestMethod("POST");
-//			postConnection.setRequestProperty("Authorization", API_PUBLISHED_KEY);
-//			postConnection.setRequestProperty("Content-Type", "application/json");
-//			postConnection.setDoOutput(true);
-//			OutputStream os = postConnection.getOutputStream();
-//			os.write(POST_PARAMS.getBytes());
-//			os.flush();
-//			os.close();
-//
-//			int responseCode = postConnection.getResponseCode();
-//			if (responseCode == HttpURLConnection.HTTP_CREATED) { // success
-//				BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
-//				String inputLine;
-//				while ((inputLine = in.readLine()) != null) {
-//					response.append(inputLine);
-//				}
-//				in.close();
-//				System.out.println(response.toString());
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//		return true;
-//	}
 }

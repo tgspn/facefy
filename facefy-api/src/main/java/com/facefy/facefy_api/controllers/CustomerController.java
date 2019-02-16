@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.facefy.facefy_api.exceptions.BadRequestException;
+import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
 import com.facefy.facefy_api.models.CustomerCard;
 import com.facefy.facefy_api.services.CustomerService;
@@ -26,7 +27,8 @@ public class CustomerController {
 	@RequestMapping(value = "/customer/find", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public Customer get(@RequestHeader(name = "User-Id", defaultValue = "", required = true) String customerId) {
+	public Customer get(@RequestHeader(name = "User-Id", defaultValue = "", 
+		required = true) String customerId) throws NotFoundException {
 		return customerService.findCustomer(customerId);
 	}
 	
@@ -45,29 +47,12 @@ public class CustomerController {
 		customer = customerService.createCustomer(customer);
 		return ResponseEntity.ok().body(customer);
 	}
-	
-	@RequestMapping(value = "/card/{cardId}", method = RequestMethod.PUT, produces = "application/json; charset=utf-8")
-	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Customer> addCard(
-			@RequestHeader(name = "User-Id", defaultValue = "", required = true) String customerId,
-			@PathVariable String customerCardId) {
-		Customer customer = customerService.findCustomer(customerId);
-
-		if (null == customer) {
-			return ResponseEntity.notFound().build();
-		}
-		CustomerCard customerCardObj = new CustomerCard();
-		customer.setCustomerCard(customerCardObj);
-
-		customerService.saveCustomer(customer);
-		return ResponseEntity.ok().body(customer);
-	}
 
 	@RequestMapping(value = "/customer/{customerId}/card/{cardId}", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public boolean associateCustomerWithCard(@PathVariable String customerId, @PathVariable String cardId) {
+	public boolean associateCustomerWithCard(@PathVariable String customerId, 
+			@PathVariable String cardId) throws NotFoundException {
 		return customerService.associateCustomerWithCard(customerId, cardId);
 	}
 		

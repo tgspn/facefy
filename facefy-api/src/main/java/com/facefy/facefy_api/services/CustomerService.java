@@ -10,11 +10,12 @@ public interface CustomerService {
 
 	Customer login(Customer customer) throws NotFoundException, BadRequestException;
 
-	Customer findCustomer(String customerId);
+	Customer findCustomer(String customerId) throws NotFoundException;
 
 	void saveCustomer(Customer customer);
 
 	Customer createCustomer(Customer customer) throws BadRequestException;
 
-	boolean associateCustomerWithCard(String customerId, String customerCardId);
+	boolean associateCustomerWithCard(String customerId, String customerCardId)
+			throws NotFoundException;
 }
