@@ -32,6 +32,11 @@ public class CashierServiceImpl implements CashierService {
 	public boolean buy(String customerId, String eventId, String amount, String description) throws NotFoundException {
 		Customer customer = getCustomer(customerId);
 		boolean success = zoopHandler.buy(customer, amount, description);
+		
+		if (success)
+		{
+			saveTransaction(customerId, amount);
+		}
 		return success;
 	}
 
@@ -45,7 +50,7 @@ public class CashierServiceImpl implements CashierService {
 		throw new NotFoundException();
 	}
 
-	public Customer saveTransaction(String customerId, int amount) throws NotFoundException {
+	public Customer saveTransaction(String customerId, String amount) throws NotFoundException {
 		Customer customer = customerRepository.findOne(customerId);
 
 		if (customer != null) {
