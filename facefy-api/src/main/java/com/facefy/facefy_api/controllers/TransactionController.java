@@ -26,6 +26,12 @@ public class TransactionController {
 	public Transaction[] findAllByCustomerId(
 			@RequestHeader(name = "Customer-Id", defaultValue = "", required = true) String customerId)
 			throws NotFoundException, BadRequestException {
+		Transaction[] transactionsArray = transactionService.findByCustomerId(customerId);
+		for (Transaction transaction : transactionsArray) {
+			String unformattedAmount = transaction.getAmount();
+			String formattedAmount = String.format("%.2f", unformattedAmount);
+			transaction.setAmount(formattedAmount);
+		}
 		return transactionService.findByCustomerId(customerId);
 	}
 }
