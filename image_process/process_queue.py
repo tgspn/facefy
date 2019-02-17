@@ -28,9 +28,10 @@ def match_faces(img_full_path):
         for img_encoing_database in custumers_encoing_img_database:
             try:
                 matche = face_recognition.compare_faces([img_encoing_database['b64']], face_encoding)
-                print(matche)
-                # if(matche):
-                #     print("achou o ",img_encoing_database['id'])
+                print(matche[0])
+                if(matche[0]):
+                    print("achou o ",img_encoing_database['nome'])
+                    break
             except:
                 print("nao eh foto ")
     os.remove(img_full_path)
@@ -50,12 +51,12 @@ def load_img_from_Database():
             face_encoding = face_recognition.face_encodings(small_img_detect)
             if(len(face_encoding)>0):
                 print('TAMANHO: ',len(face_encoding))
-                custumers_encoing_img_database.append({'id':customers['customerId'],'b64':face_encoding[0]})
+                custumers_encoing_img_database.append({'id':customers['customerId'],'b64':face_encoding[0],'nome':customers['firstName']})
             else:
                 dhiogo_image = face_recognition.load_image_file("dhiogo.jpg")
                 small_dhiogo = cv2.resize(dhiogo_image, (0, 0), fx=float(1/4), fy=float(1/4))
                 dhiogo_face_encoding = face_recognition.face_encodings(small_dhiogo)[0]
-                custumers_encoing_img_database.append({'id':'dhiogo','b64':dhiogo_face_encoding})
+                custumers_encoing_img_database.append({'id':'dhiogo','b64':dhiogo_face_encoding,'nome':'dhiogo'})
                 print(customers['customerId'],' face nao detectada')
         else:
             print(customers['customerId'],' nao tem foto correta')
