@@ -27,7 +27,7 @@ public class CashierController {
 	public boolean buy(@RequestHeader(name = "Customer-Id", defaultValue = "", 
 			required = true) String customerId, @PathVariable String eventId,
 			@RequestParam(name = "amount", defaultValue = "", required = true) String amount,
-			@RequestParam(name = "amount", defaultValue = "", required = false) String description) 
+			@RequestParam(name = "description", defaultValue = "venda", required = false) String description) 
 					throws NotFoundException, BadRequestException {
 		return cashierService.buy(customerId, eventId, amount, description);
 	}

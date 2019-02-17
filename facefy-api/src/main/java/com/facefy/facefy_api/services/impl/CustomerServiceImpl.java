@@ -36,11 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
 		if (customer.getUsername() == null || customer.getPassword() == null) {
 			throw new BadRequestException();
 		}
-		
-		String pwdMd5 = new String(md.digest(customer.getPassword().getBytes()));
-		
+
 		Optional<Customer> opt = customerRepository.findByUsernameAndPassword(customer.getUsername(),
-				pwdMd5);
+				customer.getPassword());
 		
 		if (opt.isPresent()) {
 			return opt.get();
@@ -66,8 +64,6 @@ public class CustomerServiceImpl implements CustomerService {
 		String id = zoopHandler.createCustomer(customer);
 		
 		if (!id.isEmpty()) {
-			String pwdMd5 = new String(md.digest(customer.getPassword().getBytes()));
-			customer.setPassword(pwdMd5);
 			customer.setConfirmationPassword("");
 
 			customer.setCustomerId(id);
