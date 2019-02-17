@@ -1,10 +1,5 @@
 package com.facefy.facefy_api.services.impl;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -16,12 +11,9 @@ import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
 import com.facefy.facefy_api.models.CustomerCard;
-import com.facefy.facefy_api.models.zoop.ZoopCustomer;
 import com.facefy.facefy_api.repositories.CustomerRepository;
 import com.facefy.facefy_api.services.CustomerService;
 import com.facefy.facefy_api.zoop.ZoopHandler;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

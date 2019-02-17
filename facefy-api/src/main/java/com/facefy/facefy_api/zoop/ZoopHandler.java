@@ -27,7 +27,7 @@ public class ZoopHandler {
 	final String MARKETPLACE_ID = "3249465a7753536b62545a6a684b0000";
 	final String SELLER_ID = "00c92e1ebc98487fb3a4511982c54ea7";
 	
-	String API_PUBLISHED_KEY = "zpk_test_ogmi3TJnV33UDljdN4n8aRit";
+	String API_PUBLISHED_KEY = "Basic enBrX3Rlc3Rfb2dtaTNUSm5WMzNVRGxqZE40bjhhUml0Og==";
 
 	public ZoopHandler() {
 		this.gson = new GsonBuilder().serializeNulls().create();
@@ -40,12 +40,12 @@ public class ZoopHandler {
 		ZoopCustomer zoopCustomer = new ZoopCustomer(customer);
 		
 		MediaType mediaType = MediaType.parse("application/json");
-		RequestBody body = RequestBody.create(mediaType, gson.toJson(zoopCustomer));
+		RequestBody body = RequestBody.create(null, gson.toJson(zoopCustomer));
 		Request request = new Request.Builder()
 		  .url(url)
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
-		  .addHeader("Authorization", "Basic " + getBasicAuthenticationEncoding())
+		  .addHeader("Authorization", API_PUBLISHED_KEY)
 		  .build();
 
 		try {
@@ -63,7 +63,7 @@ public class ZoopHandler {
 	}
 	
 	public boolean associateCardWithCustomer(String customerId, String cardId) {
-		String url = URL + MARKETPLACE_ID + "bank_accounts";
+		String url = URL + MARKETPLACE_ID + "/bank_accounts";
 		
 		ZoopCardAssociation zca = new ZoopCardAssociation(cardId, customerId);
 		
@@ -73,6 +73,7 @@ public class ZoopHandler {
 		  .url("https://api.zoop.ws/v1/marketplaces/3249465a7753536b62545a6a684b0000/bank_accounts")
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
+		  .addHeader("Authorization", API_PUBLISHED_KEY)
 		  .build();
 
 		try {
@@ -96,7 +97,7 @@ public class ZoopHandler {
 		  .url(url)
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
-		  .addHeader("Authorization", "Basic " + getBasicAuthenticationEncoding())
+		  .addHeader("Authorization", API_PUBLISHED_KEY)
 		  .build();
 
 		try {
@@ -107,10 +108,4 @@ public class ZoopHandler {
 			return false;
 		}
 	}
-	
-	private String getBasicAuthenticationEncoding() {
-
-        String userPassword = API_PUBLISHED_KEY + ":" + "";
-        return new String(Base64.encodeBase64(userPassword.getBytes()));
-    }
 }
