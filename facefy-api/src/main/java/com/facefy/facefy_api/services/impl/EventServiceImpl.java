@@ -106,7 +106,17 @@ public class EventServiceImpl implements EventService {
 		//Os eventos disponíveis estão cadastrados na base de dados -
 		//A ideia aqui é existir uma conexão com a API da Sympla para pegar
 		// eventos locais. - Por ora a API não possui essa opção.
-		return eventRepository.findAll();
+		List<Event> events = eventRepository.findAll();
+		
+		for (Event evt : events) {
+			String unformattedAmount = evt.getValue();
+			String formattedAmount = unformattedAmount.substring(0, unformattedAmount.length() - 2)
+					+ "." + unformattedAmount.substring(unformattedAmount.length() - 2);
+			
+			evt.setValue(formattedAmount);
+		}
+		
+		return events;
 	}
 	
 	private Customer getCustomer(String customerId) throws NotFoundException {
