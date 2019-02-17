@@ -20,7 +20,7 @@ public class Transaction {
 
 	String customerId;
 
-	int amount;
+	String amount;
 
 	String date;
 
@@ -40,11 +40,11 @@ public class Transaction {
 		this.customerId = customerId;
 	}
 
-	public int getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 

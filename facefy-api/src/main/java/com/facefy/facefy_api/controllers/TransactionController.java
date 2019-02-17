@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Transaction;
-import com.facefy.facefy_api.services.TransactionService;
+import com.facefy.facefy_api.services.impl.TransactionServiceImpl;
 
 @RestController
 public class TransactionController {
 
 	@Autowired
-	TransactionService transactionService;
+	TransactionServiceImpl transactionService;
 
-	@RequestMapping(value = "/transactions/", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/transactions", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public Transaction[] findAllByCustomerId(
