@@ -44,8 +44,7 @@ def load_img_from_Database():
     for customers in json_data['customers']:
         img_base64 = b64_img.readb64(customers['base64Photo'])
         if(img_base64 is not None):
-            small_img_detect = cv2.resize(img_base64, (0, 0), fx=float(1/2), fy=float(1/2))
-            face_encoding = face_recognition.face_encodings(small_img_detect)
+            face_encoding = face_recognition.face_encodings(img_base64)
             if(len(face_encoding)>0):
                 custumers_encoing_img_database.append({'id':customers['customerId'],'b64':face_encoding[0],'nome':customers['firstName']})
             else:

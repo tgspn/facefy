@@ -22,7 +22,6 @@ def match_faces(img):
         for img_encoing_database in base:
             try:
                 matche = face_recognition.compare_faces([img_encoing_database['b64']], face_encoding)
-                print(matche[0])
                 if(matche[0]):
                     print("achou o ",img_encoing_database['nome'])
                     print('id ',img_encoing_database['id'])
