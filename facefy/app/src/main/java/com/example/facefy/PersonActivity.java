@@ -84,6 +84,13 @@ public class PersonActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
+            if(!mConfirmPassword.getText().toString().equals(mConfirmPassword.getText().toString()))
+            {
+                String mensagem="A senha não corresponde com a confirmação";
+                mConfirmPassword.setError(mensagem);
+                mPassword.setError(mensagem);
+                return;
+            }
             cm.setConfirmationPassword( mConfirmPassword.getText().toString());
             cm.setPassword( mPassword.getText().toString());
             cm.setName( mName.getText().toString());
@@ -161,7 +168,8 @@ public class PersonActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mPicture.setImageBitmap(imageBitmap);
 
-           cm.setPhoto(imageBitmap);
+
+            cm.setPhoto(imageBitmap);
         }
     }
 }

@@ -26,9 +26,6 @@
             android:label="@string/title_activity_login"></activity>
         <activity android:name=".PersonActivity" />
         <activity
-            android:name=".Person2Activity"
-            android:label="@string/title_activity_person" />
-        <activity
             android:name=".Payment"
             android:label="@string/title_activity_payment"
             android:parentActivityName=".MainActivity"
