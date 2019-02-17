@@ -9,9 +9,8 @@ import com.facefy.facefy_api.models.Event;
 
 public interface EventService {
 
-	void buy(String customerId, Event event, String value) 
+	boolean buy(String customerId, String eventId) 
 			throws NotFoundException, BadRequestException;
-	
 	List<Event> getAll();	
 	Event get(String eventId) throws NotFoundException;
 	List<Event> getEventsFromCustomer(String customerId) throws NotFoundException;
