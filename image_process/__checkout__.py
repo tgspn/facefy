@@ -6,6 +6,7 @@ import multiprocessing
 import time
 import os
 import uuid
+import random
 import api
 
 #parametros:
@@ -45,7 +46,7 @@ def webcam_capture():
         id_ = match_faces(small_frame)
         if(id_ is not None):
             headers= {'Customer-Id':id_,'Content-Type':'application/json'}
-            api.send_confirm_buy(event_id,headers,"7500")
+            api.send_confirm_buy(event_id,headers,str(random.randrange(60000,99999)))
             break
         cv2.imshow('Video', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
