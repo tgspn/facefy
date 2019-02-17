@@ -23,6 +23,13 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	
+	@RequestMapping(value = "/auth", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public Customer login(@RequestBody Customer customer) throws BadRequestException, NotFoundException {
+		return customerService.login(customer);
+	}
+	
 	@RequestMapping(value = "/customer/find", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
