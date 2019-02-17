@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Event {
 
 	@Id
-	String id;
+	String eventId;
 	
 	String name;
 	
@@ -26,15 +26,15 @@ public class Event {
 	
 	long createdOn;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "events")
 	List<Customer> customers;
 
-	public String getId() {
-		return id;
+	public String getEventId() {
+		return eventId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
 	}
 
 	public String getName() {

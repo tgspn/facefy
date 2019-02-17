@@ -13,6 +13,7 @@ public interface EventService {
 			throws NotFoundException, BadRequestException;
 	
 	List<Event> getAll();	
+	Event get(String eventId) throws NotFoundException;
 	List<Event> getEventsFromCustomer(String customerId) throws NotFoundException;
-	List<Customer> getCustomersByEvent(String eventId) throws NotFoundException;
+	
 }

@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService {
 			throws NotFoundException, BadRequestException {
 		Customer customer = getCustomer(customerId);
 		
-		boolean paymentSuccessful = zoopHandler.buy(customer, amount, "E_" + event.getId());
+		boolean paymentSuccessful = zoopHandler.buy(customer, amount, "E_" + event.getEventId());
 
 		if (!paymentSuccessful)
 			throw new BadRequestException();
@@ -54,7 +54,7 @@ public class EventServiceImpl implements EventService {
 		List<Event> customerEvents = customer.getEvents() == null ? 
 				new ArrayList<>() : customer.getEvents();
 
-		Event existantEvent = eventRepository.findOne(event.getId());
+		Event existantEvent = eventRepository.findOne(event.getEventId());
 		
 		if (existantEvent != null) {
 			List<Customer> customers = existantEvent.getCustomers() == null ?
@@ -86,11 +86,11 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Customer> getCustomersByEvent(String eventId) throws NotFoundException {
+	public Event get(String eventId) throws NotFoundException {
 		Event event = eventRepository.findOne(eventId);
 		
 		if (event != null) {
-			return event.getCustomers();
+			return event;
 		}
 		
 		throw new NotFoundException();
@@ -98,6 +98,9 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<Event> getAll() {
+		//Os eventos disponíveis estão cadastrados na base de dados -
+		//A ideia aqui é existir uma conexão com a API da Sympla para pegar
+		// eventos locais. - Por ora a API não possui essa opção.
 		return eventRepository.findAll();
 	}
 	
