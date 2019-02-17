@@ -50,7 +50,7 @@ public class SegundoFragment extends Fragment {
         rv =(RecyclerView) view.findViewById(R.id.list_transaction);
         rv.setHasFixedSize(true);
         loadTransaction();
-
+        closeActivity.start();
         return view;
     }
 
@@ -109,6 +109,21 @@ public class SegundoFragment extends Fragment {
 
 
     }
+    Thread closeActivity = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                while (!isDetached()) {
+                    Thread.sleep(3000);
+                    loadTransaction();
+                }
+                // Do some stuff
+            } catch (Exception e) {
+                e.getLocalizedMessage();
+            }
+        }
+    });
+
 
     private Call get(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
