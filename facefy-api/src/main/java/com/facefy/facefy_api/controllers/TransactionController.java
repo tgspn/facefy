@@ -29,7 +29,9 @@ public class TransactionController {
 		Transaction[] transactionsArray = transactionService.findByCustomerId(customerId);
 		for (Transaction transaction : transactionsArray) {
 			String unformattedAmount = transaction.getAmount();
-			String formattedAmount = String.format("%.2f", unformattedAmount);
+			String formattedAmount = unformattedAmount.substring(0, unformattedAmount.length() - 2)
+					+ "." + unformattedAmount.substring(unformattedAmount.length() - 2);
+			
 			transaction.setAmount(formattedAmount);
 		}
 		return transactionService.findByCustomerId(customerId);
