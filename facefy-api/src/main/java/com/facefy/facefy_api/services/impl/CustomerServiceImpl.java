@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if (opt.isPresent()) {
 			return opt.get();
 		}
-		
+
 		throw new NotFoundException();
 	}
 
@@ -59,9 +59,17 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer createCustomer(Customer customer) throws BadRequestException {
+		if (!customer.getPassword().equals(customer.getConfirmationPassword())) {
+			throw new BadRequestException();
+		}
+		
 		String id = zoopHandler.createCustomer(customer);
 		
 		if (!id.isEmpty()) {
+			String pwdMd5 = new String(md.digest(customer.getPassword().getBytes()));
+			customer.setPassword(pwdMd5);
+			customer.setConfirmationPassword("");
+
 			customer.setCustomerId(id);
 			customerRepository.save(customer);
 			
@@ -95,7 +103,6 @@ public class CustomerServiceImpl implements CustomerService {
 		boolean success = zoopHandler.associateCardWithCustomer(customer.getCustomerId(), cardId);
 		
 		if (success) {
-//			CustomerCard card = new CustomerCard(cardId);
 			customer.setCustomerCard(cardId);
 			
 			customerRepository.save(customer);
