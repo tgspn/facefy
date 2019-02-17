@@ -4,6 +4,6 @@ import com.facefy.facefy_api.exceptions.NotFoundException;
 
 public interface CashierService {
 
-	boolean buy(String customerId, String amount, String description) 
+	boolean buy(String customerId, String eventId, String amount, String description) 
 			throws NotFoundException;
 }
