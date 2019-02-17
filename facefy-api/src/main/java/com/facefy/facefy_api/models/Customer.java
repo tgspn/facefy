@@ -2,12 +2,9 @@ package com.facefy.facefy_api.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,9 +32,7 @@ public class Customer {
 	@OneToOne
 	CustomerCard customerCard;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "customer_event", joinColumns = @JoinColumn(name = "customerId"), 
-	inverseJoinColumns = @JoinColumn(name = "eventId"))
+	@OneToMany
 	List<Event> events;
 
 	public String getCustomerId() {

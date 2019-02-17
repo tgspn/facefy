@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
+import com.facefy.facefy_api.models.CustomerEvent;
 import com.facefy.facefy_api.models.Event;
 import com.facefy.facefy_api.services.EventService;
 
@@ -38,7 +39,7 @@ public class EventController {
 	@RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public Event get(@PathVariable String eventId) throws NotFoundException {
+	public CustomerEvent get(@PathVariable String eventId) throws NotFoundException {
 		return eventService.get(eventId);
 	}
 

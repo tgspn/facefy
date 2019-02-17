@@ -25,9 +25,6 @@ public class Event {
 	long date;
 	
 	long createdOn;
-	
-	@ManyToMany(mappedBy = "events")
-	List<Customer> customers;
 
 	public String getEventId() {
 		return eventId;
@@ -51,14 +48,6 @@ public class Event {
 
 	public void setCreatedOn(long createdOn) {
 		this.createdOn = createdOn;
-	}
-
-	public List<Customer> getCustomers() {
-		return customers;
-	}
-
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
 	}
 
 	public String getDescription() {

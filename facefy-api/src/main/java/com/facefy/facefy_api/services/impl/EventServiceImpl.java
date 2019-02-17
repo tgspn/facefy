@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
+import com.facefy.facefy_api.models.CustomerEvent;
 import com.facefy.facefy_api.models.Event;
 import com.facefy.facefy_api.repositories.CustomerRepository;
 import com.facefy.facefy_api.repositories.EventRepository;
@@ -61,19 +62,19 @@ public class EventServiceImpl implements EventService {
 				new ArrayList<>() : customer.getEvents();
 
 		Event existantEvent = eventRepository.findOne(event.getEventId());
-		
-		if (existantEvent != null) {
-			List<Customer> customers = existantEvent.getCustomers() == null ?
-					new ArrayList<>() : existantEvent.getCustomers();
-			customers.add(customer);
-			existantEvent.setCustomers(customers);
-			eventRepository.save(existantEvent);
-		} else {
-			List<Customer> customers = new ArrayList<>();
-			customers.add(customer);
-			event.setCustomers(customers);
-			eventRepository.save(event);
-		}
+//		
+//		if (existantEvent != null) {
+//			List<Customer> customers = existantEvent.getCustomers() == null ?
+//					new ArrayList<>() : existantEvent.getCustomers();
+//			customers.add(customer);
+//			existantEvent.setCustomers(customers);
+//			eventRepository.save(existantEvent);
+//		} else {
+//			List<Customer> customers = new ArrayList<>();
+//			customers.add(customer);
+//			event.setCustomers(customers);
+//			eventRepository.save(event);
+//		}
 		
 		customerEvents.add(event);
 		customer.setEvents(customerEvents);
@@ -84,14 +85,36 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public Event get(String eventId) throws NotFoundException {
+	public CustomerEvent get(String eventId) throws NotFoundException {
 		Event event = eventRepository.findOne(eventId);
 		
 		if (event != null) {
-			return event;
+			List<Customer> customers = getCustomersByEvent(eventId);
+			return new CustomerEvent(event, customers);
 		}
 		
 		throw new NotFoundException();
+	}
+	
+	private List<Customer> getCustomersByEvent(String eventId) {
+		Iterable<Customer> allCustomers = customerRepository.findAll();
+		
+		List<Customer> customersMatch = new ArrayList<>();
+		
+		allCustomers.forEach(customer -> {
+			List<Event> evs = customer.getEvents();
+			
+			if (evs != null) {
+				for (Event e : evs) {
+					if (e.getEventId().equals(eventId)) {
+						customersMatch.add(customer);
+						break;
+					}
+				}
+			}
+		});
+		
+		return customersMatch;
 	}
 
 	@Override
