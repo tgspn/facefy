@@ -3,7 +3,7 @@ package com.example.facefy.model;
 public class CardsTokens {
 
     private String holder_name;
-    private int expiration_month;
+    private String expiration_month;
     private String expiration_year;
     private String security_code;
     private String card_number;
@@ -16,11 +16,11 @@ public class CardsTokens {
         this.holder_name = holder_name;
     }
 
-    public int getExpiration_month() {
+    public String getExpiration_month() {
         return expiration_month;
     }
 
-    public void setExpiration_month(int expiration_month) {
+    public void setExpiration_month(String expiration_month) {
         this.expiration_month = expiration_month;
     }
 
