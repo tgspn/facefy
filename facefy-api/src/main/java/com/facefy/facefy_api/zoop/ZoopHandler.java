@@ -2,8 +2,6 @@ package com.facefy.facefy_api.zoop;
 
 import java.io.IOException;
 
-import org.apache.tomcat.util.codec.binary.Base64;
-
 import com.facefy.facefy_api.models.Customer;
 import com.facefy.facefy_api.models.zoop.ZoopCardAssociation;
 import com.facefy.facefy_api.models.zoop.ZoopCustomer;
@@ -11,7 +9,6 @@ import com.facefy.facefy_api.models.zoop.ZoopPayment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -68,7 +65,7 @@ public class ZoopHandler {
 		
 		RequestBody body = RequestBody.create(null, gson.toJson(zca));
 		Request request = new Request.Builder()
-		  .url("https://api.zoop.ws/v1/marketplaces/3249465a7753536b62545a6a684b0000/bank_accounts")
+		  .url(url)
 		  .post(body)
 		  .addHeader("Content-Type", "application/json")
 		  .addHeader("Authorization", API_PUBLISHED_KEY)
