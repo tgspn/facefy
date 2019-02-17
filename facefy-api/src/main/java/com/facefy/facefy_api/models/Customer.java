@@ -2,6 +2,7 @@ package com.facefy.facefy_api.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -14,6 +15,7 @@ import javax.persistence.Transient;
 public class Customer {
 
 	@Id
+	@OneToOne(cascade = CascadeType.ALL)
 	String customerId;
 
 	String username;

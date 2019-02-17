@@ -12,6 +12,11 @@ public class CustomerCard {
 
 	@Id
 	String cardId;
+	
+	public CustomerCard()
+	{
+		
+	}
 
 	public CustomerCard(String cardId) {
 		this.cardId = cardId;

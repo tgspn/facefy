@@ -27,7 +27,7 @@ public class CustomerController {
 	@RequestMapping(value = "/customer/find", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public Customer get(@RequestHeader(name = "User-Id", defaultValue = "", 
+	public Customer get(@RequestHeader(name = "Customer-Id", defaultValue = "", 
 		required = true) String customerId) throws NotFoundException {
 		return customerService.findCustomer(customerId);
 	}
