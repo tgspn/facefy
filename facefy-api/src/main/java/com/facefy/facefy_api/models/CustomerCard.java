@@ -15,7 +15,6 @@ public class CustomerCard {
 	
 	public CustomerCard()
 	{
-		
 	}
 
 	public CustomerCard(String cardId) {

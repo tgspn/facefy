@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
-import com.facefy.facefy_api.models.CustomerCard;
 import com.facefy.facefy_api.services.CustomerService;
 
 @RestController

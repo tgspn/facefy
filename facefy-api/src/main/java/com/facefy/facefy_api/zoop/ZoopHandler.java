@@ -59,7 +59,7 @@ public class ZoopHandler {
 	}
 	
 	public boolean associateCardWithCustomer(String customerId, String cardId) {
-		String url = URL + MARKETPLACE_ID + "/bank_accounts";
+		String url = URL + MARKETPLACE_ID + "/cards";
 		
 		ZoopCardAssociation zca = new ZoopCardAssociation(cardId, customerId);
 		
