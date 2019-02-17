@@ -15,7 +15,7 @@ public class ZoopPayment {
 		this.description = description;
 		this.on_behalf_of = on_behalf_of;
 		this.customer = customer;
-		this.payment_type = "wallet";
+		this.payment_type = "credit";
 	}
 	
 	public String getAmount() {

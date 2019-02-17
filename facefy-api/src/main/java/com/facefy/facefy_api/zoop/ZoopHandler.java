@@ -22,7 +22,7 @@ public class ZoopHandler {
 	final String URL = "https://api.zoop.ws/v1/marketplaces/";
 
 	final String MARKETPLACE_ID = "3249465a7753536b62545a6a684b0000";
-	final String SELLER_ID = "00c92e1ebc98487fb3a4511982c54ea7";
+	final String SELLER_ID = "1e5ee2e290d040769806c79e6ef94ee1";
 	 
 	String API_PUBLISHED_KEY = "Basic enBrX3Rlc3Rfb2dtaTNUSm5WMzNVRGxqZE40bjhhUml0Og==";
 
