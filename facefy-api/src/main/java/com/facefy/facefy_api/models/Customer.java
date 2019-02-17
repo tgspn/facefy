@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -36,7 +36,7 @@ public class Customer {
 
 	String customerCard;
 
-	@OneToMany
+	@ManyToMany
 	List<Event> events;
 
 	public String getCustomerId() {
