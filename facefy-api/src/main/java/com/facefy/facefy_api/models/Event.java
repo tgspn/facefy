@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.facefy.facefy_api.enums.EventStatus;
-
 @Entity
 @Table(name = "event")
 public class Event {
@@ -23,9 +21,6 @@ public class Event {
 	String url;
 	
 	long createdOn;
-
-	@Enumerated(value = EnumType.STRING)
-	EventStatus status;
 	
 	@ManyToMany
 	List<Customer> customers;
@@ -60,14 +55,6 @@ public class Event {
 
 	public void setCreatedOn(long createdOn) {
 		this.createdOn = createdOn;
-	}
-
-	public EventStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(EventStatus status) {
-		this.status = status;
 	}
 
 	public List<Customer> getCustomers() {
