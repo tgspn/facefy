@@ -24,7 +24,7 @@ public class CashierController {
 	@RequestMapping(value = "/cashier/{eventId}", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public boolean buy(@RequestHeader(name = "User-Id", defaultValue = "", 
+	public boolean buy(@RequestHeader(name = "Customer-Id", defaultValue = "", 
 			required = true) String customerId, @PathVariable String eventId,
 			@RequestParam(name = "amount", defaultValue = "", required = true) String amount,
 			@RequestParam(name = "amount", defaultValue = "", required = false) String description) 
