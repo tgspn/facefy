@@ -18,14 +18,14 @@ public class Event {
 	
 	String description;
 	
-	double value;
+	String local;
+	
+	String value;
 	
 	String image;
 	
 	long date;
 	
-	long createdOn;
-
 	public String getEventId() {
 		return eventId;
 	}
@@ -42,12 +42,12 @@ public class Event {
 		this.name = name;
 	}
 
-	public long getCreatedOn() {
-		return createdOn;
+	public String getLocal() {
+		return local;
 	}
 
-	public void setCreatedOn(long createdOn) {
-		this.createdOn = createdOn;
+	public void setLocal(String local) {
+		this.local = local;
 	}
 
 	public String getDescription() {
@@ -58,11 +58,11 @@ public class Event {
 		this.description = description;
 	}
 
-	public double getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

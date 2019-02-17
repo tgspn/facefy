@@ -51,30 +51,14 @@ public class EventServiceImpl implements EventService {
 		if (event == null)
 			throw new NotFoundException();
 		
-		String amount = Double.toString(event.getValue()).replace(".", "");
-		
-		boolean paymentSuccessful = zoopHandler.buy(customer, amount, "E_" + event.getEventId());
+		boolean paymentSuccessful = zoopHandler.buy(customer, event.getValue(), 
+				"E_" + event.getEventId());
 
 		if (!paymentSuccessful)
 			throw new BadRequestException();
 
 		List<Event> customerEvents = customer.getEvents() == null ? 
 				new ArrayList<>() : customer.getEvents();
-
-		Event existantEvent = eventRepository.findOne(event.getEventId());
-//		
-//		if (existantEvent != null) {
-//			List<Customer> customers = existantEvent.getCustomers() == null ?
-//					new ArrayList<>() : existantEvent.getCustomers();
-//			customers.add(customer);
-//			existantEvent.setCustomers(customers);
-//			eventRepository.save(existantEvent);
-//		} else {
-//			List<Customer> customers = new ArrayList<>();
-//			customers.add(customer);
-//			event.setCustomers(customers);
-//			eventRepository.save(event);
-//		}
 		
 		customerEvents.add(event);
 		customer.setEvents(customerEvents);
@@ -98,7 +82,7 @@ public class EventServiceImpl implements EventService {
 	
 	private List<Customer> getCustomersByEvent(String eventId) {
 		Iterable<Customer> allCustomers = customerRepository.findAll();
-		
+
 		List<Customer> customersMatch = new ArrayList<>();
 		
 		allCustomers.forEach(customer -> {
