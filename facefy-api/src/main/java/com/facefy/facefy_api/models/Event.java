@@ -3,8 +3,6 @@ package com.facefy.facefy_api.models;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -18,7 +16,13 @@ public class Event {
 	
 	String name;
 	
-	String url;
+	String description;
+	
+	double value;
+	
+	String image;
+	
+	long date;
 	
 	long createdOn;
 	
@@ -41,14 +45,6 @@ public class Event {
 		this.name = name;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 	public long getCreatedOn() {
 		return createdOn;
 	}
@@ -63,6 +59,38 @@ public class Event {
 
 	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
 	}
 
 }

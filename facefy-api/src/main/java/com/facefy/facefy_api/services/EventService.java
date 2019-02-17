@@ -11,6 +11,8 @@ public interface EventService {
 
 	void buy(String customerId, Event event, String value) 
 			throws NotFoundException, BadRequestException;
-	List<Event> getEvents(String customerId) throws NotFoundException;
+	
+	List<Event> getAll();	
+	List<Event> getEventsFromCustomer(String customerId) throws NotFoundException;
 	List<Customer> getCustomersByEvent(String eventId) throws NotFoundException;
 }

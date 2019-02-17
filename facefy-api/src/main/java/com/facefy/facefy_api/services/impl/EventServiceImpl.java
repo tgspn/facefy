@@ -31,7 +31,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> getEvents(String customerId) throws NotFoundException {
+	public List<Event> getEventsFromCustomer(String customerId) throws NotFoundException {
 		Customer customer = getCustomer(customerId);
 		
 		if (customer != null) {
@@ -94,6 +94,11 @@ public class EventServiceImpl implements EventService {
 		}
 		
 		throw new NotFoundException();
+	}
+
+	@Override
+	public List<Event> getAll() {
+		return eventRepository.findAll();
 	}
 	
 }
