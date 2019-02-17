@@ -3,6 +3,7 @@ package com.facefy.facefy_api.models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -28,7 +29,8 @@ public class Customer {
 	String firstName;
 
 	String lastName;
-
+	
+	@Column(length = Integer.MAX_VALUE)
 	String base64Photo;
 
 	@OneToOne
