@@ -39,7 +39,6 @@ public class ZoopHandler {
 	
 		ZoopCustomer zoopCustomer = new ZoopCustomer(customer);
 		
-		MediaType mediaType = MediaType.parse("application/json");
 		RequestBody body = RequestBody.create(null, gson.toJson(zoopCustomer));
 		Request request = new Request.Builder()
 		  .url(url)
@@ -67,8 +66,7 @@ public class ZoopHandler {
 		
 		ZoopCardAssociation zca = new ZoopCardAssociation(cardId, customerId);
 		
-		MediaType mediaType = MediaType.parse("application/json");
-		RequestBody body = RequestBody.create(mediaType, gson.toJson(zca));
+		RequestBody body = RequestBody.create(null, gson.toJson(zca));
 		Request request = new Request.Builder()
 		  .url("https://api.zoop.ws/v1/marketplaces/3249465a7753536b62545a6a684b0000/bank_accounts")
 		  .post(body)
@@ -91,8 +89,7 @@ public class ZoopHandler {
 		
 		String url = URL + MARKETPLACE_ID + "/transactions";
 
-		MediaType mediaType = MediaType.parse("application/json");
-		RequestBody body = RequestBody.create(mediaType, gson.toJson(zoopPayment));
+		RequestBody body = RequestBody.create(null, gson.toJson(zoopPayment));
 		Request request = new Request.Builder()
 		  .url(url)
 		  .post(body)
