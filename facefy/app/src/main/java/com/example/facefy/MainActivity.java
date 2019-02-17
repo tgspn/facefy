@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             AbasAdapter adapter = new AbasAdapter( getSupportFragmentManager() );
-            adapter.adicionar( new PrimeiroFragment() , "Primeira Aba");
-            adapter.adicionar( new SegundoFragment(), "Segunda Aba");
+            adapter.adicionar( new PrimeiroFragment() , "Eventos");
+            adapter.adicionar( new SegundoFragment(), "Histórico de Pagamento");
             //adapter.adicionar( new TerceiroFragment(), "Terceira Aba");
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.abas_view_pager);

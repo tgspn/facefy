@@ -1,6 +1,8 @@
 package com.example.facefy;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,6 +42,7 @@ public class PrimeiroFragment extends Fragment {
     private static final String URL_CUSTOMER_EVENTS = "http://10.10.0.186:8081/event/customer/%s";
     private String customerId;
     private MyItemRecyclerViewAdapter adpter;
+    AlertDialog.Builder alertBuilder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,46 +81,68 @@ public class PrimeiroFragment extends Fragment {
                         for (int i = 0, size = responseHeaders.size(); i < size; i++) {
                             System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                         }
-                        Log.d("customer", "onResponse: " + customerId);
+
                         String content = responseBody.string();
                         System.out.println(content);
                         Type listType = new TypeToken<ArrayList<EventsModel>>() {
                         }.getType();
                         List<EventsModel> events = new Gson().fromJson(content, listType);
-                        EventsModel item = new EventsModel();
-                        item.name = "Teste";
-                        item.value = "10.00";
-                        events.add(item);
-                        Log.d("é o back?", "onResponse: " + events.size());
+
+
                         adpter = new MyItemRecyclerViewAdapter(events, new ItemFragment.OnListFragmentInteractionListener() {
                             @Override
                             public void onListFragmentInteraction(EventsModel item) {
-                                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
-                                OkHttpClient client = new OkHttpClient();
-                                Request request = new Request.Builder()
-                                        .url(String.format(URL_CUSTOMER_EVENTS_BUY,item.eventId))
-                                        .post(body )
-                                        .addHeader("customer-id", customerId)
-                                        .build();
 
-                                Call call = client.newCall(request);
-                                call.enqueue(new Callback() {
+                                alertBuilder = new AlertDialog.Builder(getActivity());
+                                alertBuilder.setTitle("Confirmar a compra do ingresso");
+                                alertBuilder.setMessage("Você está finalizando a compra para o evento "+item.name
+                                        +"\r\nno valor de "+item.value
+                                        +"\r\n\r\nConcluir a compra?");
+
+
+                                alertBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
+                                        OkHttpClient client = new OkHttpClient();
+                                        Request request = new Request.Builder()
+                                                .url(String.format(URL_CUSTOMER_EVENTS_BUY,item.eventId))
+                                                .post(body )
+                                                .addHeader("customer-id", customerId)
+                                                .build();
 
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        Log.d("eventoId", "onResponse: "+item.eventId);
-                                        try {
-                                            Toast toast = Toast.makeText(context, "Evento comprado", Toast.LENGTH_SHORT);
-                                            toast.show();
-                                        }catch (Exception ex) {
+                                        Call call = client.newCall(request);
+                                        call.enqueue(new Callback() {
+                                            @Override
+                                            public void onFailure(Call call, IOException e) {
+                                                e.printStackTrace();
+                                            }
 
-                                        }
+                                            @Override
+                                            public void onResponse(Call call, Response response) throws IOException {
+                                                Log.d("eventoId", "onResponse: "+item.eventId);
+                                                getActivity().runOnUiThread(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(getActivity(), "Thank you for purchase", Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            }
+                                        });
+
                                     }
                                 });
+                                alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                AlertDialog alertDialog = alertBuilder.create();
+                                alertDialog.show();
+
+
                             }
                         });
 

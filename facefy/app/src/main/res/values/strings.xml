@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">facefy</string>
+    <string name="app_name">Facefy</string>
     <string name="title_activity_payment">Payment</string>
     <string name="title_activity_person">Dados Pessoais</string>
     <!-- Strings related to login -->

@@ -48,7 +48,6 @@ public class Payment extends AppCompatActivity {
     CardForm cardForm;
     Button buy;
     private Preview mPreview;
-    private FloatingActionButton btnPaymentSend;
     private Gson gson;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String URL_ZOOP_CARDS_TOKEN = "https://api.zoop.ws/v1/marketplaces/";
@@ -73,7 +72,6 @@ public class Payment extends AppCompatActivity {
         customerId = (String) b.get("customerId");
         cardsToken = new CardsTokens();
 
-        btnPaymentSend = findViewById(R.id.btnPaymentSend);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
