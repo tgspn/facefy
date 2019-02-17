@@ -20,7 +20,7 @@ public class TransactionController {
 	@Autowired
 	TransactionServiceImpl transactionService;
 
-	@RequestMapping(value = "/transactions", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/transaction", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public Transaction[] findAllByCustomerId(
