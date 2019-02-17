@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.facefy.facefy_api.exceptions.BadRequestException;
 import com.facefy.facefy_api.exceptions.NotFoundException;
 import com.facefy.facefy_api.models.Customer;
-import com.facefy.facefy_api.models.CustomerCard;
 import com.facefy.facefy_api.repositories.CustomerRepository;
 import com.facefy.facefy_api.services.CustomerService;
 import com.facefy.facefy_api.zoop.ZoopHandler;
@@ -96,8 +95,8 @@ public class CustomerServiceImpl implements CustomerService {
 		boolean success = zoopHandler.associateCardWithCustomer(customer.getCustomerId(), cardId);
 		
 		if (success) {
-			CustomerCard card = new CustomerCard(cardId);
-			customer.setCustomerCard(card);
+//			CustomerCard card = new CustomerCard(cardId);
+			customer.setCustomerCard(cardId);
 			
 			customerRepository.save(customer);
 		}
